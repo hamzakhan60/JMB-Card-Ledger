@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'motion/react';
 import { toast } from 'sonner';
@@ -22,12 +21,6 @@ export default function SettingsPage() {
     defaultCondition: 'NM',
     timezone: 'America/New_York',
     currency: 'USD',
-  });
-  const [notifications, setNotifications] = useState({
-    emailOnSale: true,
-    weeklyReport: true,
-    lowStockAlert: true,
-    billingAlerts: true,
   });
   const [appearance, setAppearance] = useState({ gameAccent: 'pokemon' });
 
@@ -54,7 +47,6 @@ export default function SettingsPage() {
       <Tabs defaultValue="general" className="space-y-6">
         <TabsList>
           <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="appearance">Appearance</TabsTrigger>
         </TabsList>
 
@@ -155,81 +147,6 @@ export default function SettingsPage() {
             >
               Save Changes
             </Button>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="notifications">
-          <Card className="p-6 border-border rounded-xl space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium">Email when sale recorded</p>
-                <p className="text-xs text-muted-foreground">
-                  Get notified when you record a new sale
-                </p>
-              </div>
-              <Switch
-                checked={notifications.emailOnSale}
-                onCheckedChange={(checked) => {
-                  setNotifications({ ...notifications, emailOnSale: checked });
-                  toast.success('Notification preference updated');
-                }}
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium">
-                  Weekly profit summary email
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Receive a weekly summary of your profits
-                </p>
-              </div>
-              <Switch
-                checked={notifications.weeklyReport}
-                onCheckedChange={(checked) => {
-                  setNotifications({ ...notifications, weeklyReport: checked });
-                  toast.success('Notification preference updated');
-                }}
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium">
-                  Lot running low alert (&lt; 3 cards)
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Alert when inventory lots are running low
-                </p>
-              </div>
-              <Switch
-                checked={notifications.lowStockAlert}
-                onCheckedChange={(checked) => {
-                  setNotifications({
-                    ...notifications,
-                    lowStockAlert: checked,
-                  });
-                  toast.success('Notification preference updated');
-                }}
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium">Payment/billing alerts</p>
-                <p className="text-xs text-muted-foreground">
-                  Important notifications about your subscription
-                </p>
-              </div>
-              <Switch
-                checked={notifications.billingAlerts}
-                onCheckedChange={(checked) => {
-                  setNotifications({
-                    ...notifications,
-                    billingAlerts: checked,
-                  });
-                  toast.success('Notification preference updated');
-                }}
-              />
-            </div>
           </Card>
         </TabsContent>
 

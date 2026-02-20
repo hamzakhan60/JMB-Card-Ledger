@@ -30,7 +30,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem("jmb-theme");var d=window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",t==="light"?false:t==="dark"?true:d);})();`,
+            __html: `(function(){var t=localStorage.getItem("jmb-theme");document.documentElement.classList.toggle("dark",t!=="light");})();`,
           }}
         />
       </head>
