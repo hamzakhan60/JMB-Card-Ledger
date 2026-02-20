@@ -9,6 +9,7 @@ const PROTECTED_PATHS = [
   "/reports",
   "/settings",
   "/partners",
+  "/profile",
 ];
 const AUTH_PATHS = ["/login", "/signup"];
 

@@ -28,8 +28,15 @@ import { useState } from "react";
 const GAMES = ["pokemon", "yugioh", "riftbound"] as const;
 const CONDITIONS = ["NM", "LP", "MP", "HP", "DMG"] as const;
 
-export function AddLotDrawer() {
-  const [open, setOpen] = useState(false);
+interface AddLotDrawerProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export function AddLotDrawer({ open: controlledOpen, onOpenChange }: AddLotDrawerProps = {}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = controlledOpen ?? internalOpen;
+  const setOpen = onOpenChange ?? setInternalOpen;
   const addLot = useAddInventoryLot();
 
   const form = useForm<CreateLotPayload>({
@@ -55,15 +62,17 @@ export function AddLotDrawer() {
 
   return (
     <Drawer open={open} onOpenChange={setOpen} direction="right">
-      <DrawerTrigger asChild>
-        <Button>
-          <Plus className="size-4 mr-2" />
-          Add lot
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent className="max-w-[480px] w-full ml-auto">
+      {controlledOpen == null && (
+        <DrawerTrigger asChild>
+          <Button>
+            <Plus className="size-4 mr-2" />
+            Add lot
+          </Button>
+        </DrawerTrigger>
+      )}
+      <DrawerContent className="w-full sm:max-w-[480px] ml-auto">
         <DrawerHeader>
-          <DrawerTitle>Add inventory lot</DrawerTitle>
+          <DrawerTitle>Add Inventory Lot</DrawerTitle>
         </DrawerHeader>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

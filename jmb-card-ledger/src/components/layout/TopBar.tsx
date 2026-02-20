@@ -7,9 +7,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, LogOut, User } from "lucide-react";
+import { ChevronDown, LogOut, User, Moon, Sun } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { useTheme } from "@/components/providers/ThemeProvider";
 
 interface TopBarProps {
   userEmail?: string | null;
@@ -17,6 +18,7 @@ interface TopBarProps {
 
 export function TopBar({ userEmail }: TopBarProps) {
   const router = useRouter();
+  const { theme, toggleTheme } = useTheme();
 
   async function handleSignOut() {
     const supabase = createSupabaseBrowserClient();
@@ -26,7 +28,19 @@ export function TopBar({ userEmail }: TopBarProps) {
   }
 
   return (
-    <header className="flex h-14 items-center justify-end border-b border-border bg-card px-4">
+    <header className="flex h-14 items-center justify-end gap-2 border-b border-border bg-card px-4">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleTheme}
+        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        {theme === "dark" ? (
+          <Sun className="size-4" />
+        ) : (
+          <Moon className="size-4" />
+        )}
+      </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="gap-2">

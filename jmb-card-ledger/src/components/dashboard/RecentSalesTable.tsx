@@ -1,24 +1,11 @@
 "use client";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { Sale } from "@/types";
 import { cn } from "@/lib/utils";
-
-const gameColors: Record<string, string> = {
-  pokemon: "bg-game-pokemon/20 text-game-pokemon border-game-pokemon/30",
-  yugioh: "bg-game-yugioh/20 text-game-yugioh border-game-yugioh/30",
-  riftbound: "bg-game-riftbound/20 text-game-riftbound border-game-riftbound/30",
-};
+import { motion } from "motion/react";
 
 interface RecentSalesTableProps {
   sales: Sale[];
@@ -28,84 +15,60 @@ interface RecentSalesTableProps {
 export function RecentSalesTable({ sales, isLoading }: RecentSalesTableProps) {
   if (isLoading) {
     return (
-      <div className="rounded-xl border bg-card">
-        <div className="p-4 border-b">
-          <Skeleton className="h-5 w-32" />
+      <Card className="p-6 border-border rounded-xl">
+        <Skeleton className="h-5 w-32 mb-4" />
+        <div className="space-y-3">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <Skeleton key={i} className="h-12 w-full" />
+          ))}
         </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Card</TableHead>
-              <TableHead>Platform</TableHead>
-              <TableHead className="text-right">Profit</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {[1, 2, 3, 4, 5].map((i) => (
-              <TableRow key={i}>
-                <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                <TableCell><Skeleton className="h-4 w-28" /></TableCell>
-                <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                <TableCell><Skeleton className="h-4 w-14 ml-auto" /></TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      </Card>
     );
   }
 
+  const margin = (s: Sale) =>
+    s.net_proceeds !== 0 ? (s.realized_profit / s.net_proceeds) * 100 : 0;
+
   return (
-    <div className="rounded-xl border bg-card">
-      <div className="p-4 border-b">
-        <h3 className="font-medium">Recent sales</h3>
-      </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead>Card</TableHead>
-            <TableHead>Platform</TableHead>
-            <TableHead className="text-right">Profit</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {sales.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
-                No sales yet
-              </TableCell>
-            </TableRow>
-          ) : (
-            sales.slice(0, 10).map((sale) => (
-              <TableRow key={sale.id}>
-                <TableCell>{formatDate(sale.sale_date)}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className={cn("text-xs", gameColors[sale.game] ?? "")}
-                    >
-                      {sale.game}
-                    </Badge>
-                    <span className="truncate max-w-[140px]">{sale.card_name}</span>
-                  </div>
-                </TableCell>
-                <TableCell>{sale.platform}</TableCell>
-                <TableCell
+    <Card className="p-6 border-border rounded-xl">
+      <h3 className="mb-4 font-medium">Recent Sales</h3>
+      <div className="space-y-3">
+        {sales.length === 0 ? (
+          <p className="text-sm text-muted-foreground py-4">No sales yet</p>
+        ) : (
+          sales.slice(0, 5).map((sale, index) => (
+            <motion.div
+              key={sale.id}
+              className="flex items-center justify-between pb-3 border-b border-border last:border-0 last:pb-0"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
+              whileHover={{ x: 4, transition: { duration: 0.2 } }}
+            >
+              <div>
+                <p className="text-sm">{sale.card_name}</p>
+                <p className="text-xs text-muted-foreground">
+                  {sale.platform} • {sale.qty_sold}x
+                </p>
+              </div>
+              <div className="text-right">
+                <p
                   className={cn(
-                    "text-right font-medium",
+                    "text-sm",
                     sale.realized_profit >= 0 ? "text-profit" : "text-loss"
                   )}
                 >
+                  {sale.realized_profit >= 0 ? "+" : ""}
                   {formatCurrency(sale.realized_profit)}
-                </TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </div>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {margin(sale).toFixed(1)}%
+                </p>
+              </div>
+            </motion.div>
+          ))
+        )}
+      </div>
+    </Card>
   );
 }

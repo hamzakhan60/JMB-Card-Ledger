@@ -22,3 +22,22 @@ export function formatDate(value: string | Date): string {
     day: "numeric",
   }).format(d);
 }
+
+const gameColorHex: Record<string, string> = {
+  pokemon: "#00E5FF",
+  yugioh: "#6D28D9",
+  riftbound: "#D4AF37",
+};
+
+export function getGameColor(game: string): string {
+  return gameColorHex[game.toLowerCase()] ?? "#00E5FF";
+}
+
+export function getGameDisplayName(game: string): string {
+  const names: Record<string, string> = {
+    pokemon: "Pokémon",
+    yugioh: "Yu-Gi-Oh!",
+    riftbound: "Riftbound",
+  };
+  return names[game.toLowerCase()] ?? game;
+}
