@@ -11,14 +11,13 @@ import { ChevronDown, LogOut, User, Moon, Sun } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/components/providers/ThemeProvider";
+import { useUser } from "@/lib/supabase/useUser";
 
-interface TopBarProps {
-  userEmail?: string | null;
-}
-
-export function TopBar({ userEmail }: TopBarProps) {
+export function TopBar() {
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
+  const { user } = useUser();
+  const userEmail = user?.email ?? null;
 
   async function handleSignOut() {
     const supabase = createSupabaseBrowserClient();
