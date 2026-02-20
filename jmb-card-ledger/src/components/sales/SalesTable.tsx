@@ -52,9 +52,29 @@ export function SalesTable({
   if (isLoading) {
     return (
       <Card className="border-border rounded-xl overflow-hidden">
-        <div className="p-4 space-y-3">
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-64 w-full" />
+        <div className="p-4 space-y-4">
+          <div className="flex gap-4">
+            <Skeleton className="h-14 flex-1 rounded-lg" />
+            <Skeleton className="h-14 flex-1 rounded-lg" />
+            <Skeleton className="h-14 flex-1 rounded-lg" />
+          </div>
+          <div className="space-y-2">
+            <div className="flex gap-4">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-4 w-20" />
+            </div>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div key={i} className="flex gap-4 py-2">
+                <Skeleton className="h-4 flex-1 max-w-[200px]" />
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-14" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+            ))}
+          </div>
         </div>
       </Card>
     );

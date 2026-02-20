@@ -14,7 +14,7 @@ export function AppShell({ children, userEmail }: AppShellProps) {
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <TopBar userEmail={userEmail} />
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="app-main flex-1 overflow-auto">{children}</main>
       </div>
     </div>
   );

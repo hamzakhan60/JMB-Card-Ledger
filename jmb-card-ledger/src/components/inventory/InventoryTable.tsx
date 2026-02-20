@@ -33,9 +33,24 @@ export function InventoryTable({
   if (isLoading) {
     return (
       <Card className="border-border rounded-xl overflow-hidden">
-        <div className="p-4 space-y-3">
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-64 w-full" />
+        <div className="p-4 space-y-4">
+          <div className="space-y-2">
+            <div className="flex gap-4">
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-4 w-20" />
+            </div>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div key={i} className="flex gap-4 py-2">
+                <Skeleton className="h-4 flex-1 max-w-[180px]" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-14" />
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+            ))}
+          </div>
         </div>
       </Card>
     );
@@ -92,7 +107,7 @@ export function InventoryTable({
                   <td className="p-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-1 h-12 rounded-full flex-shrink-0"
+                        className="w-1 h-12 rounded-full shrink-0"
                         style={{ backgroundColor: getGameColor(lot.game) }}
                       />
                       <div>

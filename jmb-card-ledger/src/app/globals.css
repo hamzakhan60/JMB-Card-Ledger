@@ -202,6 +202,14 @@
 }
 
 @layer utilities {
+  .app-main {
+    background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
+  }
+
+  .dark .app-main {
+    background: var(--background);
+  }
+
   .glow-primary {
     box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
   }

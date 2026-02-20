@@ -42,7 +42,13 @@ export function FIFOAuditModal({
           Market values shown are estimates or user-provided.
         </p>
         {isLoading ? (
-          <Skeleton className="h-32 w-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-[90%]" />
+            <Skeleton className="h-4 w-[85%]" />
+            <Skeleton className="h-4 w-[80%]" />
+          </div>
         ) : !consumptions?.length ? (
           <p className="text-sm text-muted-foreground">No consumption records.</p>
         ) : (

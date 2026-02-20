@@ -38,7 +38,15 @@ export function ProfitChart({
     return (
       <Card className="p-6 border-border rounded-xl">
         <Skeleton className="h-6 w-40 mb-4" />
-        <Skeleton className="h-64 w-full" />
+        <div className="h-64 flex flex-col justify-end gap-3">
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-[95%]" />
+          <Skeleton className="h-3 w-[90%]" />
+          <Skeleton className="h-3 w-[85%]" />
+          <Skeleton className="h-3 w-[80%]" />
+          <Skeleton className="h-3 w-[75%]" />
+          <Skeleton className="h-8 w-full" />
+        </div>
       </Card>
     );
   }
