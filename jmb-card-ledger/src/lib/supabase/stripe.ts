@@ -1,7 +1,16 @@
 import Stripe from "stripe";
 import { createSupabaseServiceClient } from "./server";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+let stripeInstance: Stripe | null = null;
+
+export function getStripe(): Stripe {
+  if (!stripeInstance) {
+    const key = process.env.STRIPE_SECRET_KEY;
+    if (!key) throw new Error("STRIPE_SECRET_KEY is not set");
+    stripeInstance = new Stripe(key);
+  }
+  return stripeInstance;
+}
 
 export async function handleCheckoutSessionCompleted(
   session: Stripe.Checkout.Session
@@ -48,10 +57,10 @@ export async function handleSubscriptionDeleted(
 export async function handleInvoicePaymentFailed(
   invoice: Stripe.Invoice
 ) {
+  const subscription =
+    invoice.parent?.subscription_details?.subscription;
   const subscriptionId =
-    typeof invoice.subscription === "string"
-      ? invoice.subscription
-      : invoice.subscription?.id;
+    typeof subscription === "string" ? subscription : subscription?.id;
   if (!subscriptionId) return;
 
   const supabase = createSupabaseServiceClient();
@@ -66,7 +75,7 @@ export async function verifyWebhook(
   signature: string
 ): Promise<Stripe.Event> {
   const secret = process.env.STRIPE_WEBHOOK_SECRET!;
-  return stripe.webhooks.constructEvent(
+  return getStripe().webhooks.constructEvent(
     payload,
     signature,
     secret

@@ -14,7 +14,7 @@ function toSale(row: Record<string, unknown>): Sale {
     game: row.game as Sale["game"],
     set_name: row.set_name as string,
     variant: (row.variant as string) ?? "",
-    condition: row.condition as string,
+    condition: row.condition as Sale["condition"],
     qty_sold: Number(row.qty_sold),
     sale_price_each: Number(row.sale_price_each),
     platform_fee: Number(row.platform_fee),

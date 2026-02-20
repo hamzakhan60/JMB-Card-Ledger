@@ -9,7 +9,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateLotSchema, type CreateLotPayload } from "@/lib/validators/inventory";
 import { useAddInventoryLot } from "@/lib/query/inventory";
@@ -40,7 +40,7 @@ export function AddLotDrawer({ open: controlledOpen, onOpenChange }: AddLotDrawe
   const addLot = useAddInventoryLot();
 
   const form = useForm<CreateLotPayload>({
-    resolver: zodResolver(CreateLotSchema),
+    resolver: zodResolver(CreateLotSchema) as Resolver<CreateLotPayload>,
     defaultValues: {
       game: "pokemon",
       card_name: "",

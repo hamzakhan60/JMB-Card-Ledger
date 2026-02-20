@@ -99,7 +99,7 @@ export function ProfitChart({
                     border: "1px solid var(--border)",
                     borderRadius: "8px",
                   }}
-                  formatter={(value: number) => [`$${Number(value).toFixed(2)}`, "Profit"]}
+                  formatter={(value: number | undefined) => [`$${Number(value ?? 0).toFixed(2)}`, "Profit"]}
                   labelFormatter={(label) => label}
                 />
                 <Line
